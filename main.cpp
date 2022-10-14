@@ -7,7 +7,7 @@ int main(int argc, char** argv) {
     char c;
     int k;
     std::cin >> s >> c >> k;
-    std::cout << Task_3_Solver::task3(s, c, k) << "\n";
+    std::cout << Task_3_Solver::task3_with_stack(s, c, k) << "\n";
 }
 
 

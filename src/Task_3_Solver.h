@@ -11,8 +11,12 @@
 class Task_3_Solver {
     static bool dfs(int v, FDFA& pdka, std::vector<bool>& used);
 
+    static bool is_alphabet_symbol(char c);
+
 public:
-    static bool task3(const std::string& reg, char c, int k);
+    static bool task3_with_automat(const std::string& reg, char c, int k);
+
+    static bool task3_with_stack(const std::string& reg, char c, int k);
 };
 
 

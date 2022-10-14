@@ -22,6 +22,9 @@ NFA_from_regex NFA_from_regex_builder::build_NFA(const std::string& str) {
                 temp_nfas.push(std::move(a*=b));
             }
         } else if (c == '*') {
+            if(temp_nfas.empty()) {
+                throw std::runtime_error("invalid regex");
+            }
             temp_nfas.top().make_closure();
         } else {
             throw std::runtime_error("invalid symbol");

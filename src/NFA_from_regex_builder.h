@@ -7,11 +7,10 @@
 
 
 class NFA_from_regex_builder {
+    static bool is_alphabet_symbol(char c);
+
 public:
     static NFA_from_regex build_NFA(const std::string& str);
-
-private:
-    static bool is_alphabet_symbol(char c);
 };
 
 
