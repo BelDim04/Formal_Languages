@@ -1,7 +1,29 @@
-from Grammar import Grammar, Situation
+from Grammar import Grammar
 
 
 class EarleyParser:
+    class Situation:
+        input = str
+        output = str
+        pointPos = int
+        baseInd = int
+
+        def __init__(self, str_in, str_out, point, ind):
+            self.input = str_in
+            self.output = str_out
+            self.pointPos = point
+            self.baseInd = ind
+
+        def __hash__(self):
+            status = self.input + self.output + str(self.pointPos) + str(self.baseInd)
+            return status.__hash__()
+
+        def __eq__(self, other):
+            return self.input == other.input \
+                and self.output == other.output \
+                and self.baseInd == other.baseInd \
+                and self.pointPos == other.pointPos
+
     grammar = Grammar
     situationSets = list
     word = str
@@ -12,13 +34,13 @@ class EarleyParser:
         self.situationSets = []
         for i in range(len(word) + 1):
             self.situationSets.append(set())
-        self.situationSets[0].add(Situation('S\'', 'S', 0, 0))
+        self.situationSets[0].add(self.Situation('S\'', 'S', 0, 0))
 
     def scan(self, set_id: int, symbol):
         for situation in self.situationSets[set_id]:
             if situation.pointPos < len(situation.output) and situation.output[situation.pointPos] == symbol:
                 self.situationSets[set_id + 1].add(
-                    Situation(situation.input, situation.output, situation.pointPos + 1, situation.baseInd))
+                    self.Situation(situation.input, situation.output, situation.pointPos + 1, situation.baseInd))
 
     def predict(self, set_id: int):
         situations_to_insert = []
@@ -27,7 +49,7 @@ class EarleyParser:
                 rule_input = situation.output[situation.pointPos]
                 for rule in self.grammar.rules:
                     if rule.input == rule_input:
-                        situations_to_insert.append(Situation(rule_input, rule.output, 0, set_id))
+                        situations_to_insert.append(self.Situation(rule_input, rule.output, 0, set_id))
 
         for sit in situations_to_insert:
             self.situationSets[set_id].add(sit)
@@ -39,7 +61,7 @@ class EarleyParser:
                 for other in self.situationSets[situation.baseInd]:
                     if other.pointPos < len(other.output) \
                             and other.output[other.pointPos: other.pointPos + len(situation.input)] == situation.input:
-                        sit = Situation(other.input, other.output, other.pointPos + 1, other.baseInd)
+                        sit = self.Situation(other.input, other.output, other.pointPos + 1, other.baseInd)
                         situations_to_insert.append(sit)
 
         for sit in situations_to_insert:

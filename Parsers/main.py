@@ -1,5 +1,6 @@
 from Grammar import Grammar, Rule
 from EarleyParser import EarleyParser
+from LR import LR
 if __name__ == '__main__':
     print('Введите кол-во правил в грамматике\n')
     n = int(input())
@@ -15,5 +16,6 @@ if __name__ == '__main__':
     word = input()
 
     earley = EarleyParser(grammar, word)
+    lr = LR(grammar, word)
 
-    print('Verdict: ', earley.check())
+    print('Verdicts  ', 'LR: ', lr.check(), '  Earley: ', earley.check())
